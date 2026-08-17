@@ -1,0 +1,415 @@
+<title>리포트 대시보드</title>
+<style>
+  :root {
+    --bg: #f2f0ea;
+    --surface: #ffffff;
+    --surface-muted: #ebe8e0;
+    --ink: #201e1a;
+    --ink-muted: #6f695c;
+    --ink-faint: #a49c8b;
+    --line: #e0dbcd;
+    --accent: #2f5d50;
+    --accent-ink: #ffffff;
+    --accent-soft: #e4ede9;
+    --shadow: 0 1px 2px rgba(32, 30, 26, 0.06), 0 8px 24px -12px rgba(32, 30, 26, 0.18);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161a18;
+      --surface: #1e2320;
+      --surface-muted: #262b27;
+      --ink: #ede9df;
+      --ink-muted: #a6a08f;
+      --ink-faint: #6d6a5d;
+      --line: #333830;
+      --accent: #7cb5a3;
+      --accent-ink: #10201b;
+      --accent-soft: #253a33;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #161a18;
+    --surface: #1e2320;
+    --surface-muted: #262b27;
+    --ink: #ede9df;
+    --ink-muted: #a6a08f;
+    --ink-faint: #6d6a5d;
+    --line: #333830;
+    --accent: #7cb5a3;
+    --accent-ink: #10201b;
+    --accent-soft: #253a33;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+
+  header.hero {
+    margin-bottom: 40px;
+  }
+
+  .eyebrow {
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  h1 {
+    font-family: "AppleMyungjo", "Batang", "Noto Serif KR", serif;
+    font-weight: 400;
+    font-size: clamp(28px, 4.2vw, 38px);
+    line-height: 1.25;
+    margin: 10px 0 12px;
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+
+  .lede {
+    color: var(--ink-muted);
+    font-size: 15px;
+    line-height: 1.6;
+    max-width: 56ch;
+  }
+
+  .sync-note {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-top: 18px;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .sync-note strong {
+    color: var(--ink-muted);
+    font-weight: 600;
+  }
+
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 24px 18px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .card-title-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .monogram {
+    flex: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "AppleMyungjo", "Batang", serif;
+    font-size: 18px;
+  }
+
+  .card-title h2 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .card-title p {
+    margin: 3px 0 0;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.02em;
+  }
+
+  .card-meta {
+    text-align: right;
+    flex: none;
+  }
+
+  .count {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .folder-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 12.5px;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  .folder-link:hover { border-bottom-color: currentColor; }
+  .folder-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 18px 24px 22px;
+  }
+
+  .chip-list.collapsed {
+    max-height: 108px;
+    overflow: hidden;
+  }
+
+  a.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--surface-muted);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    transition: border-color 0.12s ease, background 0.12s ease;
+  }
+  a.chip:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  a.chip:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  a.chip.latest {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+  }
+  a.chip .badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .card-foot {
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid var(--line);
+  }
+
+  button.toggle {
+    width: 100%;
+    padding: 11px;
+    background: transparent;
+    border: none;
+    color: var(--ink-muted);
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  button.toggle:hover { color: var(--accent); background: var(--surface-muted); }
+  button.toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+  .card.placeholder {
+    box-shadow: none;
+    background: transparent;
+    border-style: dashed;
+    padding: 26px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .card.placeholder .monogram {
+    background: transparent;
+    border: 1px dashed var(--ink-faint);
+    color: var(--ink-faint);
+  }
+  .card.placeholder p {
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--ink-faint);
+  }
+  .card.placeholder strong {
+    display: block;
+    font-size: 14.5px;
+    color: var(--ink-muted);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    a.chip, button.toggle { transition: none; }
+  }
+
+  @media (max-width: 520px) {
+    .card-head { flex-direction: column; }
+    .card-meta { text-align: left; }
+  }
+</style>
+
+<div class="page">
+  <header class="hero">
+    <div class="eyebrow">DH네상스호텔 · 대표 보고 페이지</div>
+    <h1>매일 올라오는 리포트를 한 곳에서 확인하세요</h1>
+    <p class="lede">아래 카드에서 리포트 종류를 고른 뒤, 날짜를 눌러 해당 PDF를 새 탭에서 여세요. 새 리포트 종류가 추가되면 이 페이지에도 카드가 더해집니다.</p>
+    <div class="sync-note">최신 자료 기준: <strong id="sync-date"></strong></div>
+  </header>
+
+  <div class="stack" id="report-stack"></div>
+</div>
+
+<script>
+  const CATEGORIES = [
+    {
+      key: "inspection",
+      mono: "인",
+      label: "객실인스펙션리포트",
+      sub: "ROOM INSPECTION REPORT",
+      folder: "https://drive.google.com/drive/folders/1nPG4Cxtlb6iLaQl_Dr_MJp80UBevYD0W",
+      files: [
+        { date: "2026-08-17", id: "15WZDheMgLrjuafZg9ZOjtWYNFnCiVGxj" },
+        { date: "2026-08-16", id: "1lZtPphuLr8UteUmnEjwNzH6ZLdE4_iHU" }
+      ]
+    },
+    {
+      key: "review",
+      mono: "리",
+      label: "DH호텔 리뷰보고서",
+      sub: "GUEST REVIEW REPORT",
+      folder: "https://drive.google.com/drive/folders/1UEOtNygCemlkXo27cRK0U-ZAm4Dh8Pri",
+      files: [
+        { date: "2026-08-17", id: "1Egtz-SLbxC19L4Wyz2jlPItDbdxAiF3p" },
+        { date: "2026-08-16", id: "1TwHemKdQekKGnf76ANwUnfofE-nVN8ii" },
+        { date: "2026-08-15", id: "1EwHgAcTV-jLpXSo6tQWm_e8WUc3DaL6J" },
+        { date: "2026-08-14", id: "1arn0rPd7wTN5Wqx6TqdZQ8AiBMAh7qx8" },
+        { date: "2026-08-13", id: "1dPF3-xZ8AqQGK7MQmC9bH-TiLSifAqS0" },
+        { date: "2026-08-12", id: "1fEQ1uQFvma9Gmb9RmzVPJ5MkJiiyo2_z" },
+        { date: "2026-08-11", id: "1euYCKoiytq6G-eltrBMNUkkOPNRDyZ_f" },
+        { date: "2026-08-10", id: "1X8rVaCjlJX5z51DFwXo4-0DEAWLXsCJf" },
+        { date: "2026-08-09", id: "1KVMwiG0mOw8axYmbY8Z8BlaU7ZLwlqLx" },
+        { date: "2026-08-08", id: "1mi3sbz0peNcGxzzwJdgWFnFdVrRBSfxj" },
+        { date: "2026-08-07", id: "10FUIwLPewaG0Gln2g0-nFgIUdjcPsbRp" },
+        { date: "2026-08-06", id: "1t7AfQGS4TED_Ugd4bMdQaZjoUXYhTn3y" },
+        { date: "2026-08-05", id: "142Ps3EeUYVI4dkDoP7X0NgkYJ-iKlJfv" },
+        { date: "2026-08-04", id: "1fv6mQJinv_zsI0XyAZsbCajyYZFUqf0f" },
+        { date: "2026-08-03", id: "17JsrsR9tjdlfZbFeMREyunl9LXZZ-UH4" },
+        { date: "2026-08-02", id: "1CTmoen4gXNtOERkTnZApMaRu5hGAvog2" },
+        { date: "2026-08-01", id: "1ZicghJtsndhIDhHao3pmuyPJcoO1qB1r" },
+        { date: "2026-07-31", id: "1z1lNqMQSt2e0-SsLVniN9s7B8d-t70N0" },
+        { date: "2026-07-30", id: "1ckuqqKO_PoSlVliCeNNLSGmEoox71uz4" },
+        { date: "2026-07-29", id: "1IwlQCER8LBJfaMH8-8925tfHzlVx4265" },
+        { date: "2026-07-28", id: "1-r9br0CVHyEETO0qvhBgb5z0OMKwkXYQ" },
+        { date: "2026-07-27", id: "1nbTZtL-ZYosM3NhKwstsRavO69Wpv7bW" }
+      ]
+    }
+  ];
+
+  const VISIBLE_ROWS = 3; // ponytail: fixed collapse height instead of measuring chip wrap; add per-card row math if chip count grows a lot
+
+  function fmtDate(iso) {
+    const [y, m, d] = iso.split("-");
+    return `${m}.${d}`;
+  }
+
+  function fileUrl(id) {
+    return `https://drive.google.com/file/d/${id}/view`;
+  }
+
+  const stack = document.getElementById("report-stack");
+  let latestOverall = null;
+
+  CATEGORIES.forEach(cat => {
+    const sorted = [...cat.files].sort((a, b) => b.date.localeCompare(a.date));
+    if (!latestOverall || sorted[0].date > latestOverall) latestOverall = sorted[0].date;
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const needsCollapse = sorted.length > 12;
+
+    card.innerHTML = `
+      <div class="card-head">
+        <div class="card-title-group">
+          <div class="monogram">${cat.mono}</div>
+          <div class="card-title">
+            <h2>${cat.label}</h2>
+            <p>${cat.sub}</p>
+          </div>
+        </div>
+        <div class="card-meta">
+          <div class="count">${sorted.length}건 누적</div>
+          <a class="folder-link" href="${cat.folder}" target="_blank" rel="noopener">드라이브 폴더 열기 ↗</a>
+        </div>
+      </div>
+      <div class="chip-list ${needsCollapse ? "collapsed" : ""}">
+        ${sorted.map((f, i) => `
+          <a class="chip ${i === 0 ? "latest" : ""}" href="${fileUrl(f.id)}" target="_blank" rel="noopener">
+            ${i === 0 ? '<span class="badge">최신</span>' : ""}${fmtDate(f.date)}
+          </a>
+        `).join("")}
+      </div>
+      ${needsCollapse ? `<div class="card-foot"><button class="toggle" type="button">전체 ${sorted.length}건 펼쳐보기</button></div>` : ""}
+    `;
+
+    if (needsCollapse) {
+      const list = card.querySelector(".chip-list");
+      const btn = card.querySelector("button.toggle");
+      btn.addEventListener("click", () => {
+        const open = list.classList.toggle("collapsed") === false;
+        btn.textContent = open ? "접기" : `전체 ${sorted.length}건 펼쳐보기`;
+      });
+    }
+
+    stack.appendChild(card);
+  });
+
+  const placeholder = document.createElement("div");
+  placeholder.className = "card placeholder";
+  placeholder.innerHTML = `
+    <div class="monogram">＋</div>
+    <p><strong>새 리포트 대기 중</strong>추가되는 리포트는 이 자리에 카드로 표시됩니다.</p>
+  `;
+  stack.appendChild(placeholder);
+
+  document.getElementById("sync-date").textContent = latestOverall;
+</script>

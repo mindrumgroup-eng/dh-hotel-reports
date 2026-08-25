@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>DH네상스호텔 리뷰 기반 개선 제안</title>
+<style>
+  :root {
+    --ink: #1C232B;
+    --paper: #F4F6F5;
+    --paper-raised: #FFFFFF;
+    --line: #DCE2E1;
+    --muted: #5B6B6A;
+    --accent: #1F6F6B;
+    --accent-soft: #E4EFEE;
+    --success: #2E7D4F;
+    --success-soft: #E5F2EA;
+    --warning: #B7791F;
+    --warning-soft: #FBF0DD;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #E8ECEB; --paper: #12161A; --paper-raised: #1A2024; --line: #2A3236; --muted: #8FA09E;
+      --accent: #4FA39D; --accent-soft: #1C3230; --success: #4CAF6E; --success-soft: #17281D;
+      --warning: #D9A441; --warning-soft: #2E2515;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #E8ECEB; --paper: #12161A; --paper-raised: #1A2024; --line: #2A3236; --muted: #8FA09E;
+    --accent: #4FA39D; --accent-soft: #1C3230; --success: #4CAF6E; --success-soft: #17281D;
+    --warning: #D9A441; --warning-soft: #2E2515;
+  }
+  :root[data-theme="light"] {
+    --ink: #1C232B; --paper: #F4F6F5; --paper-raised: #FFFFFF; --line: #DCE2E1; --muted: #5B6B6A;
+    --accent: #1F6F6B; --accent-soft: #E4EFEE; --success: #2E7D4F; --success-soft: #E5F2EA;
+    --warning: #B7791F; --warning-soft: #FBF0DD;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", "Pretendard", "Apple SD Gothic Neo", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .sheet { animation: rise .5s ease-out; }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  }
+
+  .sheet { max-width: 760px; margin: 0 auto; padding: 48px 24px 64px; }
+
+  .archive-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--accent); text-decoration: none; margin-bottom: 20px;
+  }
+  .archive-link:hover { text-decoration: underline; }
+
+  .masthead { padding-bottom: 20px; border-bottom: 2px solid var(--ink); }
+  .masthead .eyebrow {
+    font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent);
+    font-weight: 700; margin: 0 0 6px;
+  }
+  .masthead h1 {
+    font-family: "Iowan Old Style", "Palatino Linotype", Georgia, ui-serif, serif;
+    font-size: 26px; font-weight: 600; margin: 0; text-wrap: balance; letter-spacing: -0.01em;
+  }
+  .masthead p.sub { font-size: 13px; color: var(--muted); margin: 8px 0 0; }
+
+  .topic { margin: 32px 0; padding: 20px 22px; background: var(--paper-raised); border: 1px solid var(--line); border-radius: 12px; }
+  .topic h2 { font-size: 16px; margin: 0 0 4px; display: flex; align-items: center; gap: 8px; }
+  .topic .why { font-size: 13px; color: var(--muted); margin: 0 0 14px; }
+
+  .quotes { list-style: none; margin: 0 0 14px; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .quotes li {
+    font-size: 13.5px; line-height: 1.6; padding: 10px 12px; background: var(--paper); border-radius: 8px;
+    border-left: 3px solid var(--accent);
+  }
+  .quotes .src { display: block; font-size: 11.5px; color: var(--muted); margin-top: 4px; font-variant-numeric: tabular-nums; }
+
+  .suggestion {
+    font-size: 13.5px; padding: 10px 12px; background: var(--warning-soft); border-radius: 8px;
+    border-left: 3px solid var(--warning);
+  }
+  .suggestion strong { display: inline; }
+
+  .strengths { margin: 32px 0; padding: 20px 22px; background: var(--success-soft); border: 1px solid var(--success); border-radius: 12px; }
+  .strengths h2 { font-size: 16px; margin: 0 0 12px; color: var(--success); }
+  .strengths ul { margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.9; }
+
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); line-height: 1.7; }
+
+  @media (max-width: 520px) {
+    .topic { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <a class="archive-link" href="./index.html">← 대시보드로</a>
+
+  <div class="masthead">
+    <p class="eyebrow">리뷰 기반 인사이트</p>
+    <h1>DH네상스호텔 개선 제안</h1>
+    <p class="sub">여러 채널·여러 시점에 걸쳐 반복된 패턴만 정리했습니다 (2026-08-07 기준, 계속 갱신됨)</p>
+  </div>
+
+  <div class="topic">
+    <h2>🍳 조식 — 가장 많이 언급됨</h2>
+    <p class="why">메뉴 구성 부실, 조식 시간 짧음(07:00~08:50), 좌석/테이블 부족</p>
+    <ul class="quotes">
+      <li>"조식 메뉴가 엉망으로 다운그레이드... 빵 종류도 없더군요"<span class="src">Jonghoon · 아고다 · 2026-03-03</span></li>
+      <li>"조식이 너무 부실합니다... 차라리 제공을 안하는게 나을 것 같아요"<span class="src">KYUNGJIN · 아고다 · 2026-01-27</span></li>
+      <li>"조식은 먹을만한게 없어서 커피만 마셨어요"<span class="src">JINHUI · 아고다 · 2026-01-27</span></li>
+      <li>"조식이 너무 부실해서 매일 밖에서 식사"<span class="src">Ertan · 부킹닷컴 · 2026-07-21</span></li>
+      <li>테이블이 없어서 간이 접이식 테이블을 빌려 사용<span class="src">선희 · 아고다 · 2026-01-12</span></li>
+      <li>"조식은 약간 부실했지만 몇 가지 한국 음식을 맛볼 수 있었습니다" (원문 프랑스어)<span class="src">Delphine · 부킹닷컴 · 2026-08-07</span></li>
+      <li>"조식 종류가 적고, 빵·우유 같은 기본 아이템도 추가 제공이 안 됩니다" (원문 중국어)<span class="src">리뷰어 · 트립닷컴 · 2026-08-10</span></li>
+      <li>"조식은 제목은 K-breakfast이지만 김치도 안 보이고, 열악함. 차라리 컵라면이라도 비치했으면"<span class="src">姜錫元 · 구글맵 · 2026-08-24</span></li>
+    </ul>
+    <div class="suggestion"><strong>제안:</strong> 요일별 메뉴 편차 최소화, 빵 등 기본 아이템 상시 비치, 좌석 확충. (참고: 한식 조식 컨셉 자체는 호평도 많아 — "구성의 일관성/양"이 핵심 이슈로 보임)</div>
+  </div>
+
+  <div class="topic">
+    <h2>🔇 방음 — 반복 지적</h2>
+    <p class="why">특히 9층 옥상 설비 소음이 구체적으로 지목됨</p>
+    <ul class="quotes">
+      <li>"벽이 얇아 이웃방의 소리가 시끄러움"<span class="src">KEIICHI · 아고다 · 2025-12-13</span></li>
+      <li>"방음이 전혀 안되서 잠 한숨 못잤어요... 평생 묵은 숙소 중 최악"<span class="src">YEO · 아고다 · 2025-11-30</span></li>
+      <li>"9층 투숙 중 옥상 설비 소음. 새벽 2시 문의에도 사전 안내 없었음"<span class="src">wookhee · 아고다 · 2025-12-28</span></li>
+      <li>"외국인 투숙객이 많은 숙소라 전체적으로 조금 어수선하고 소음이 있는 편이었어요" (6.0/10)<span class="src">감자2 · 트립닷컴 · 2026-08-14</span></li>
+      <li>"방음이 잘 안 되어 옆방 사람들의 대화나 고함 소리가 다 들립니다", 에어컨 소음도 심함 (원문 프랑스어)<span class="src">Julie Goutherot · 구글맵 · 2026-08-16</span></li>
+    </ul>
+    <div class="suggestion"><strong>제안:</strong> 9층 옥상 설비 소음원 우선 점검, 방음 취약 객실 예약 단계 사전 고지 검토. 객실 에어컨 소음도 반복 지적되어 노후 기종 점검 필요.</div>
+  </div>
+
+  <div class="topic">
+    <h2>🛏️ 매트리스 · 객실 청결 — 반복 지적 (2026-08-17 최초 추가, 2026-08-21 사례 2건 추가)</h2>
+    <p class="why">서로 다른 채널·투숙객에게서 4건 반복 확인된 패턴</p>
+    <ul class="quotes">
+      <li>"매트리스가 너무 딱딱합니다. 마치 바닥에서 자는 것 같고..." / "객실 청결 상태가 좋지 않습니다. 거미줄, 욕실 타일 파손, 발톱 조각, 침대를 움직이면 먼지가 나옵니다" (원문 프랑스어)<span class="src">Julie Goutherot · 구글맵 · 2026-08-16</span></li>
+      <li>"매트리스는 콘크리트처럼 딱딱했습니다. 욕실 청결 상태는 매우 실망스러웠습니다" (원문 독일어)<span class="src">Dirk Efferenn · 구글맵 · 2026-08-16</span></li>
+      <li>"이전 투숙객의 머리카락이 있었고 욕실은 좀 낡았음. 매트리스가 토퍼 없이 매우 딱딱해서 바닥에서 자는 것 같았음" (원문 프랑스어)<span class="src">리뷰어(플래티넘) · 트립닷컴 · 2026-08-18</span></li>
+      <li>"침대 하나가 너무 낮고 다른 하나는 매트리스가 너무 딱딱했음" (원문 프랑스어)<span class="src">Anne-claire · 부킹닷컴 · 2026-08-21</span></li>
+    </ul>
+    <div class="suggestion"><strong>제안:</strong> 매트리스 교체 주기 점검, 청소 체크리스트에 욕실 타일 상태·침대 하부 먼지 항목 추가. 채널 4개 중 3개에서 반복 확인되어 우선순위를 높여 볼 만합니다.</div>
+  </div>
+
+  <div class="topic">
+    <h2>🌊 에어컨 누수 + 청소 불량 대응 (2026-08-23 신규)</h2>
+    <p class="why">같은 시기(08-22 무렵) 서로 다른 두 리뷰어가 독립적으로 동일 패턴 지적 — 심각도 높음(둘 다 1/5)</p>
+    <ul class="quotes">
+      <li>"장기 투숙 중 에어컨 누수 지속, 수건만 제공받고 미해결, 마지막날 바닥까지 침수, 재항의에도 '방이 다 찼다'며 해결 못함, 세면대에 죽은 모기 3일간 방치" (원문 중국어)<span class="src">芸 · 구글맵 · 2026-08-22</span></li>
+      <li>"방 상태 엉망, 청소 불량, 에어컨 누수, 방 교체 제안조차 안 함, 밤새 물소리로 못 잠" (원문 중국어)<span class="src">Stella Wu · 구글맵 · 2026-08-22</span></li>
+    </ul>
+    <div class="suggestion"><strong>제안:</strong> 에어컨 누수는 안전·청결 직결 문제로 최우선 점검 대상. 두 리뷰 모두 "장기 투숙 중 문제 발생 시 방 교체 거부"를 공통 지적 — 만실이 아니면 즉시 대체 배정하는 프로세스 마련 필요. 업체 대표가 두 건 모두에 사과 응답 남김.</div>
+  </div>
+
+  <div class="topic">
+    <h2>🚿 화장실 배수 · 곰팡이</h2>
+    <ul class="quotes">
+      <li>"화장실 물이 잘 안빠짐"<span class="src">Andy · 카카오맵 · 2019</span></li>
+      <li>"세면대 물은 잘 안빠지구요"<span class="src">은주 · 아고다 · 2025-12-21</span></li>
+      <li>"화장실 천장이랑 곰팡이가 좀 많았으나..."<span class="src">리뷰어 · 트립닷컴 · 2026-08-01</span></li>
+    </ul>
+    <div class="suggestion"><strong>제안:</strong> 배수구 정기 점검 주기화, 욕실 환기/방수 점검.</div>
+  </div>
+
+  <div class="topic">
+    <h2>🛁 스파/월풀 — 고장 시 안내 부족</h2>
+    <ul class="quotes">
+      <li>"고장을 이유로 앞으로 스파는 제공하지 않겠다는 말에 실망"<span class="src">CHUN · 아고다 · 2026-01-26</span></li>
+      <li>"jacuzzi was not in service... weren't able to get a room change"<span class="src">Melanie · 부킹닷컴 · 2026-07-31</span></li>
+      <li>"지난번에 사용 가능했던 제트버스가 이번엔 사용 불가. 유지보수 회사 문제라고 안내받음" (원문 일본어)<span class="src">yoshito · 아고다 · 2026-07-16</span></li>
+    </ul>
+    <div class="suggestion"><strong>제안:</strong> 예약 시점 가동 여부 실시간 고지, 고장 시 대체 객실 배정 프로세스 마련.</div>
+  </div>
+
+  <div class="topic">
+    <h2>🅿️ 주차 요금 — 오해로 인한 불만</h2>
+    <p class="why">시설 자체엔 대체로 만족하지만 "유료인 줄 몰랐다"는 반응 다수 (Hwa, SOOIL, KEIICHI 등)</p>
+    <div class="suggestion"><strong>제안:</strong> 예약 확정 페이지/메일에 주차 유료 안내를 더 눈에 띄게 표시.</div>
+  </div>
+
+  <div class="topic">
+    <h2>🔑 기타 소소한 불편</h2>
+    <ul class="quotes">
+      <li>객실 키 1개만 기본 제공 — 2인 이상 객실은 2개 검토 필요<span class="src">SANGUK · 아고다 · 2025-12-02</span></li>
+      <li>외국인 직원의 안전사고 대응이 미숙했던 사례 1건<span class="src">YOUNGMIN · 아고다 · 2026-01-04</span></li>
+    </ul>
+  </div>
+
+  <div class="strengths">
+    <h2>✅ 꾸준히 강점으로 언급되는 부분 (유지·강조 포인트)</h2>
+    <ul>
+      <li><strong>위치</strong> — 성신여대입구역 도보 접근성, 거의 모든 채널 최상위 평점</li>
+      <li><strong>가성비</strong> — 가격 대비 만족도 최상위권 (8.9~9.1/10)</li>
+      <li><strong>직원 친절도</strong> — 프런트 응대 호평 압도적, 특정 직원("Kim") 실명 언급 다수</li>
+      <li><strong>룸 업그레이드</strong> — 자발적 업그레이드 서비스 호평, 재방문 유도 요인으로 보임</li>
+      <li><strong>한식 조식 컨셉</strong> — 컨셉 자체는 "이국적", "정성스럽다"는 반응도 상당수</li>
+    </ul>
+  </div>
+
+  <footer>
+    이 문서는 아고다·부킹닷컴·야놀자·트립닷컴 등에서 확인한 리뷰 전반을 훑어보며 정리했습니다.<br>
+    단발성 리뷰 1건이 아니라 여러 채널·여러 시점에 걸쳐 반복된 패턴만 담았습니다.<br>
+    <code>/호텔리뷰체크</code> 실행 중 새로운 반복 패턴이 발견되면 계속 갱신됩니다.
+  </footer>
+</div>
+</body>
+</html>
